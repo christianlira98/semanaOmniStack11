@@ -11,7 +11,6 @@ module.exports = {
             value,
             ong_id
         })
-        response.header('X-Total-Count', count['count(*)'])
         return response.json({id})
     },
     async index(request, response) {
@@ -26,6 +25,8 @@ module.exports = {
                     'ongs.whatsapp',
                     'ongs.city',
                     'ongs.uf'])
+        
+        response.header('X-Total-Count', count['count(*)'])
         return response.json(incidents)
     },
     async delete(request, response) {
@@ -36,7 +37,7 @@ module.exports = {
             .select('ong_id')
             .first()
         
-        if(incident.ong_id !== ong_id) {
+        if(incident !== undefined && incident.ong_id !== ong_id) {
             return response.status(401).json({error: 'Operation not allowed. '})
         }
 
